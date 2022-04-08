@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kc.pingpang.platform.data.mapper.CompetitionMapper">
+
+	<resultMap id="competitionResult" type="Competition">
+		<id property="id" column="competition_id"/>
+		<result property="name" column="competition_name"/>
+		<result property="description" column="competition_description" />
+		<result property="participantLimit" column="competition_participant_limit" />
+		<result property="date" column="competition_date" />
+		<result property="createTime" column="competition_create_time" />
+		<result property="updateTime" column="competition_update_time" />
+	</resultMap>
+
+	<sql id="pagingLimit">
+		<include refid="com.kc.pingpang.platform.data.mapper.CommonDataMapper.pagingLimit"/>
+	</sql>
+
+	<sql id="competitionColumns">
+		tc.id AS competition_id,
+		tc.name AS competition_name,
+		tc.description AS competition_description,
+		tc.participant_limit AS competition_participant_limit,
+		tc.date AS competition_date,
+		tc.create_time AS competition_create_time,
+		tc.update_time AS competition_update_time
+	</sql>
+
+	<sql id="competitionFilter">
+		<if test="filter.name != null">
+			AND tc.name LIKE #{filter.name}
+		</if>
+	</sql>
+
+	<select id="selectCompetitionByFilter" parameterType="map" resultMap="competitionResult">
+		SELECT
+			<include refid="competitionColumns"/>
+		FROM
+			t_competition tc
+		<where>
+			<include refid="competitionFilter"/>
+		</where>
+		ORDER BY tc.id DESC
+		<include refid="pagingLimit"/>
+	</select>
+
+	<select id="countCompetitionByFilter" parameterType="map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			t_competition tc
+		<where>
+			<include refid="competitionFilter"/>
+		</where>
+	</select>
+</mapper>

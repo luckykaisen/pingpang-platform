@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	
+<configuration>
+	
+	<typeAliases>
+		<!-- Handlers 请安字母顺序排列 -->
+		<typeAlias alias="Competition" type="com.kc.pingpang.platform.data.model.Competition"/>
+		<typeAlias alias="CompetitionGroup" type="com.kc.pingpang.platform.data.model.CompetitionGroup"/>
+		<typeAlias alias="CompetitionGroupPlayer" type="com.kc.pingpang.platform.data.model.CompetitionGroupPlayer"/>
+		<typeAlias alias="CompetitionPlayer" type="com.kc.pingpang.platform.data.model.CompetitionPlayer"/>
+		<typeAlias alias="Player" type="com.kc.pingpang.platform.data.model.Player"/>
+	</typeAliases>
+</configuration>
