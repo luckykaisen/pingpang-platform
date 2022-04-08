@@ -4,6 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kc.pingpang.platform.data.mapper.CompetitionMapper">
 
+	<resultMap id="playerResult" type="Player"
+			   extends="com.kc.pingpang.platform.data.mapper.PlayerMapper.playerResult"/>
+
 	<resultMap id="competitionResult" type="Competition">
 		<id property="id" column="competition_id"/>
 		<result property="name" column="competition_name"/>
@@ -11,11 +14,43 @@
 		<result property="participantLimit" column="competition_participant_limit" />
 		<result property="date" column="competition_date" />
 		<result property="createTime" column="competition_create_time" />
-		<result property="updateTime" column="competition_update_time" />
+		<result property="updateTime" column="competition_update_time"/>
+	</resultMap>
+
+	<resultMap id="competitionGroupResult" type="CompetitionGroup">
+		<id property="id" column="competition_group_id"/>
+		<result property="name" column="competition_group_name"/>
+		<result property="createTime" column="competition_group_create_time"/>
+		<result property="updateTime" column="competition_group_update_time"/>
+		<result property="competitionId" column="competition_group_competition_id"/>
+
+		<collection property="players" ofType="Player" resultMap="playerResult"/>
+	</resultMap>
+
+	<resultMap id="competitionGroupPlayerResult" type="CompetitionGroupPlayer">
+		<id property="id" column="competition_group_player_id"/>
+		<result property="createTime" column="competition_group_player_create_time"/>
+		<result property="updateTime" column="competition_group_player_update_time"/>
+		<result property="playerId" column="competition_group_player_player_id"/>
+		<result property="groupId" column="competition_group_player_group_id"/>
+
+		<association property="player" javaType="Player" resultMap="playerResult"/>
+	</resultMap>
+
+	<resultMap id="competitionPlayerResult" type="CompetitionPlayer">
+		<id property="id" column="competition_player_id"/>
+		<result property="playerName" column="competition_player_player_name"/>
+		<result property="playerId" column="competition_player_player_id"/>
+		<result property="createTime" column="competition_player_create_time"/>
+		<result property="competitionId" column="competition_player_competition_id"/>
 	</resultMap>
 
 	<sql id="pagingLimit">
 		<include refid="com.kc.pingpang.platform.data.mapper.CommonDataMapper.pagingLimit"/>
+	</sql>
+
+	<sql id="playerColumns">
+		<include refid="com.kc.pingpang.platform.data.mapper.PlayerMapper.playerColumns"/>
 	</sql>
 
 	<sql id="competitionColumns">
@@ -26,6 +61,30 @@
 		tc.date AS competition_date,
 		tc.create_time AS competition_create_time,
 		tc.update_time AS competition_update_time
+	</sql>
+
+	<sql id="competitionGroupColumns">
+		tcg.id AS competition_group_id,
+		tcg.name AS competition_group_name,
+		tcg.create_time AS competition_group_create_time,
+		tcg.update_time AS competition_group_update_time,
+		tcg.competition_id AS competition_group_competition_id
+	</sql>
+
+	<sql id="competitionGroupPlayerColumns">
+		tcgp.id AS competition_group_player_id,
+		tcgp.create_time AS competition_group_player_create_time,
+		tcgp.update_time AS competition_group_player_update_time,
+		tcgp.player_id AS competition_group_player_player_id,
+		tcgp.group_id AS competition_group_player_group_id
+	</sql>
+
+	<sql id="competitionPlayerColumns">
+		tcp.id AS competition_player_id,
+		tcp.player_name AS competition_player_player_name,
+		tcp.player_id AS competition_player_player_id,
+		tcp.competition_id AS competition_player_competition_id,
+		tcp.create_time AS competition_player_create_time
 	</sql>
 
 	<sql id="competitionFilter">
@@ -55,4 +114,113 @@
 			<include refid="competitionFilter"/>
 		</where>
 	</select>
+
+	<update id="updateCompetition" parameterType="map">
+		UPDATE
+			t_competition
+		<set>
+			update_time = NOW(),
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="participantLimit != null">
+				participant_limit = #{participantLimit},
+			</if>
+			<if test="date != null">
+				date = #{date},
+			</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+
+	<select id="selectCompetitionById" parameterType="map" resultMap="competitionResult">
+		SELECT
+			<include refid="competitionColumns"/>
+		FROM
+			t_competition tc
+		WHERE
+			tc.id = #{id}
+	</select>
+
+	<insert id="batchInsertCompetitionGroup" parameterType="map">
+		INSERT INTO t_competition_group (
+			name,
+			create_time,
+			update_time,
+			competition_id
+		) VALUES
+		<foreach collection="groups" item="group" separator=",">
+			(
+			 	#{group.name},
+			 	NOW(),
+			 	NOW(),
+			 	#{group.competitionId}
+			)
+		</foreach>
+	</insert>
+
+	<select id="selectCompetitionGroupPlayerByKey" parameterType="map" resultMap="competitionGroupPlayerResult">
+		SELECT
+			<include refid="competitionGroupPlayerColumns"/>,
+		    <include refid="playerColumns"/>
+		FROM
+			t_competition_group_player tcgp
+		WHERE
+			tcgp.group_id = #{groupId} AND tcgp.player_id = #{playerId}
+	</select>
+
+	<insert id="insertCompetitionGroupPlayer" parameterType="map">
+		INSERT INTO t_competition_group_player(
+			create_time,
+			update_time,
+			player_id,
+			group_id
+		) VALUES (
+			NOW(),
+			NOW(),
+		    #{playerId},
+		    #{groupId}
+		)
+	</insert>
+
+	<delete id="deleteCompetitionGroupPlayer" parameterType="map">
+		DELETE FROM t_competition_group_player WHERE id = #{id}
+	</delete>
+
+	<select id="selectCompetitionPlayerByPlayerNameAndCompetitionId" parameterType="map" resultMap="competitionPlayerResult">
+		SELECT
+			<include refid="competitionPlayerColumns"/>
+		FROM
+			t_competition_player tcp
+		WHERE
+			tcp.player_name = #{playerName} AND tcp.competition_id = #{competitionId}
+	</select>
+
+	<select id="selectCompetitionPlayerByCompetitionId" parameterType="map" resultMap="competitionPlayerResult">
+		SELECT
+			<include refid="competitionPlayerColumns"/>
+		FROM
+			t_competition_player tcp
+		WHERE
+			tcp.competition_id = #{competitionId}
+	</select>
+
+	<insert id="insertCompetitionPlayer" parameterType="map">
+		INSERT INTO t_competition_player (
+			player_name,
+			player_id,
+			competition_id,
+			create_time
+		) VALUES (
+			#{playerName},
+			#{playerId},
+			#{competitionId},
+		    NOW()
+		)
+	</insert>
 </mapper>

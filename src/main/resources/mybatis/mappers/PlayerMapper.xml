@@ -26,4 +26,26 @@
 		WHERE
 			tp.id = #{id}
 	</select>
+
+	<select id="selectPlayerByName" parameterType="map" resultMap="playerResult">
+		SELECT
+			<include refid="playerColumns"/>
+		FROM
+			t_player tp
+		WHERE
+			tp.name = #{name}
+	</select>
+
+	<insert id="insertPlayer" parameterType="map"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_player (
+			name,
+			create_time,
+			update_time
+		) VALUES (
+		    #{name},
+		    NOW(),
+		    NOW()
+	    )
+	</insert>
 </mapper>

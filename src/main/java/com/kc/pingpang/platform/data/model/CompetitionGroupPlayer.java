@@ -11,6 +11,8 @@ public class CompetitionGroupPlayer implements Serializable {
     private Integer playerId;
     private Integer groupId;
 
+    private Player player;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class CompetitionGroupPlayer implements Serializable {
 
     public void setGroupId(Integer groupId) {
         this.groupId = groupId;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

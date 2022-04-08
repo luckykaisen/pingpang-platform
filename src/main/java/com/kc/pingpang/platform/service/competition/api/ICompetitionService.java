@@ -7,4 +7,6 @@ import com.kc.pingpang.platform.freamwork.db.filter.SearchResult;
 public interface ICompetitionService {
 
     SearchResult<Competition> searchCompetitionByFilter(CompetitionFilter filter);
+
+    void joinCompetition(String playerName, Competition competition);
 }

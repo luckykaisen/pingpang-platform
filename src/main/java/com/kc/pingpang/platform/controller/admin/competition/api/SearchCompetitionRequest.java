@@ -1,4 +1,4 @@
-package com.kc.pingpang.platform.controller.competition.api;
+package com.kc.pingpang.platform.controller.admin.competition.api;
 
 import com.kc.pingpang.platform.data.filter.CompetitionFilter;
 import com.kc.pingpang.platform.freamwork.http.api.api.PagingRequest;
