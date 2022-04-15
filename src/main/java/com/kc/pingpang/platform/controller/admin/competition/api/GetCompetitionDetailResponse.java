@@ -2,6 +2,8 @@ package com.kc.pingpang.platform.controller.admin.competition.api;
 
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 
+import java.util.List;
+
 public class GetCompetitionDetailResponse extends ServiceResponse {
 
     private Integer id;
@@ -11,6 +13,8 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
     private String date;
     private String createTime;
     private String updateTime;
+    private List<CompetitionPlayerVO> players;
+    private List<CompetitionGroupVO> groups;
 
     public Integer getId() {
         return id;
@@ -66,5 +70,21 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<CompetitionPlayerVO> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<CompetitionPlayerVO> players) {
+        this.players = players;
+    }
+
+    public List<CompetitionGroupVO> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<CompetitionGroupVO> groups) {
+        this.groups = groups;
     }
 }

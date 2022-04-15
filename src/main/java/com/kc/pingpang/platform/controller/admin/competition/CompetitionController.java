@@ -2,19 +2,14 @@ package com.kc.pingpang.platform.controller.admin.competition;
 
 import com.kc.pingpang.platform.controller.admin.competition.api.*;
 import com.kc.pingpang.platform.data.mapper.CompetitionMapper;
-import com.kc.pingpang.platform.data.model.Competition;
-import com.kc.pingpang.platform.data.model.CompetitionGroup;
-import com.kc.pingpang.platform.data.model.CompetitionGroupPlayer;
-import com.kc.pingpang.platform.data.model.Group;
+import com.kc.pingpang.platform.data.mapper.PlayerMapper;
+import com.kc.pingpang.platform.data.model.*;
 import com.kc.pingpang.platform.freamwork.db.filter.SearchResult;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
 import com.kc.pingpang.platform.service.competition.api.ICompetitionService;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -29,6 +24,9 @@ public class CompetitionController {
 
     @Resource
     private CompetitionMapper competitionMapper;
+
+    @Resource
+    private PlayerMapper playerMapper;
 
     @RequestMapping("/search")
     public ServiceResponse searchCompetition(@RequestBody SearchCompetitionRequest request) {
@@ -57,14 +55,64 @@ public class CompetitionController {
         response.setDate(DateTimeUtility.formatYYYYMMDD(competition.getDate()));
         response.setCreateTime(DateTimeUtility.formatYYYYMMDDHHMM(competition.getCreateTime()));
         response.setUpdateTime(DateTimeUtility.formatYYYYMMDDHHMM(competition.getUpdateTime()));
+        response.setPlayers(CompetitionPlayerVO.toVOs(competition.getCompetitionPlayers()));
+        response.setGroups(CompetitionGroupVO.toVOs(competition.getGroups()));
 
         return response;
+    }
+
+    @RequestMapping("/create")
+    public ServiceResponse createCompetition(@RequestBody CreateCompetitionRequest request) throws Exception {
+
+        competitionMapper.insertCompetition(request.toCompetition());
+
+        return new ServiceResponse();
     }
 
     @RequestMapping("/modify")
     public ServiceResponse modifyCompetition(@RequestBody ModifyCompetitionRequest request) throws Exception {
 
         competitionMapper.updateCompetition(request.toCompetition());
+
+        return new ServiceResponse();
+    }
+
+    @RequestMapping("/player/join")
+    public ServiceResponse joinCompetitionPlayer(@RequestBody JoinCompetitionRequest request) {
+
+        ServiceResponse response = new ServiceResponse();
+
+        Integer competitionId = request.getId();
+        Integer playerId = request.getPlayerId();
+
+        CompetitionPlayer competitionPlayer = competitionMapper.selectCompetitionPlayerByPlayerIdAndCompetitionId(playerId, competitionId);
+
+        if (competitionPlayer != null) {
+            response.setResultMessage("您已成功报名了该场比赛，无需重复提交！");
+            response.setResultCode(ServiceResponse.CODE_FAILED);
+
+            return response;
+        }
+
+        Competition competition = competitionMapper.selectCompetitionById(request.getId());
+        Player player = playerMapper.selectPlayerById(playerId);
+
+        competitionPlayer = new CompetitionPlayer();
+        competitionPlayer.setPlayerName(player.getName());
+        competitionPlayer.setPlayerId(player.getId());
+        competitionPlayer.setCompetitionId(competition.getId());
+
+        competitionMapper.insertCompetitionPlayer(competitionPlayer);
+
+        return response;
+    }
+
+    @RequestMapping("/player/delete")
+    public ServiceResponse deleteCompetitionPlayer(@RequestParam Integer id) {
+
+        CompetitionPlayer competitionPlayer = competitionMapper.selectCompetitionPlayerById(id);
+
+        competitionService.deleteCompetitionPlayer(competitionPlayer);
 
         return new ServiceResponse();
     }
@@ -85,6 +133,22 @@ public class CompetitionController {
         if (!CollectionUtils.isEmpty(groups)) {
             competitionMapper.batchInsertCompetitionGroup(groups);
         }
+
+        return new ServiceResponse();
+    }
+
+    @RequestMapping("/group/add")
+    public ServiceResponse addCompetitionGroup(@RequestParam Integer id) {
+
+        competitionService.addCompetitionGroup(id);
+
+        return new ServiceResponse();
+    }
+
+    @RequestMapping("/group/delete")
+    public ServiceResponse deleteCompetitionGroup(@RequestParam Integer id) {
+
+        competitionService.deleteCompetitionGroup(id);
 
         return new ServiceResponse();
     }
@@ -114,7 +178,7 @@ public class CompetitionController {
 
 
     @RequestMapping("/group/player/delete")
-    public ServiceResponse deleteCompetitionGroupPlayer(@RequestBody Integer id) {
+    public ServiceResponse deleteCompetitionGroupPlayer(@RequestParam Integer id) {
 
         competitionMapper.deleteCompetitionGroupPlayer(id);
 

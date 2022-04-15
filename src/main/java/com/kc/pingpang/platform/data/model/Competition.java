@@ -2,6 +2,7 @@ package com.kc.pingpang.platform.data.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Competition implements Serializable {
 
@@ -12,6 +13,9 @@ public class Competition implements Serializable {
     private Date date;
     private Date createTime;
     private Date updateTime;
+
+    private List<CompetitionPlayer> competitionPlayers;
+    private List<CompetitionGroup> groups;
 
     public Integer getId() {
         return id;
@@ -67,5 +71,21 @@ public class Competition implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<CompetitionPlayer> getCompetitionPlayers() {
+        return competitionPlayers;
+    }
+
+    public void setCompetitionPlayers(List<CompetitionPlayer> competitionPlayers) {
+        this.competitionPlayers = competitionPlayers;
+    }
+
+    public List<CompetitionGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<CompetitionGroup> groups) {
+        this.groups = groups;
     }
 }

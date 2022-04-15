@@ -12,7 +12,7 @@ public class CompetitionGroup implements Serializable {
     private Date updateTime;
     private Integer competitionId;
 
-    private List<Player> players;
+    private List<CompetitionGroupPlayer> players;
 
     public Integer getId() {
         return id;
@@ -54,11 +54,11 @@ public class CompetitionGroup implements Serializable {
         this.competitionId = competitionId;
     }
 
-    public List<Player> getPlayers() {
+    public List<CompetitionGroupPlayer> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(List<CompetitionGroupPlayer> players) {
         this.players = players;
     }
 }

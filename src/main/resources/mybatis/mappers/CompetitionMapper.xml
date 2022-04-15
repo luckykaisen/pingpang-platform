@@ -15,6 +15,9 @@
 		<result property="date" column="competition_date" />
 		<result property="createTime" column="competition_create_time" />
 		<result property="updateTime" column="competition_update_time"/>
+
+		<collection property="groups" ofType="CompetitionGroup" resultMap="competitionGroupResult"/>
+		<collection property="competitionPlayers" ofType="CompetitionPlayer" resultMap="competitionPlayerResult"/>
 	</resultMap>
 
 	<resultMap id="competitionGroupResult" type="CompetitionGroup">
@@ -24,7 +27,7 @@
 		<result property="updateTime" column="competition_group_update_time"/>
 		<result property="competitionId" column="competition_group_competition_id"/>
 
-		<collection property="players" ofType="Player" resultMap="playerResult"/>
+		<collection property="players" ofType="CompetitionGroupPlayer" resultMap="competitionGroupPlayerResult"/>
 	</resultMap>
 
 	<resultMap id="competitionGroupPlayerResult" type="CompetitionGroupPlayer">
@@ -140,9 +143,17 @@
 
 	<select id="selectCompetitionById" parameterType="map" resultMap="competitionResult">
 		SELECT
-			<include refid="competitionColumns"/>
+			<include refid="competitionColumns"/>,
+		    <include refid="competitionPlayerColumns"/>,
+		    <include refid="competitionGroupColumns"/>,
+			<include refid="competitionGroupPlayerColumns"/>,
+		    <include refid="playerColumns"/>
 		FROM
 			t_competition tc
+			LEFT JOIN t_competition_player tcp ON tcp.competition_id = tc.id
+			LEFT JOIN t_competition_group tcg ON tcg.competition_id = tc.id
+			LEFT JOIN t_competition_group_player tcgp ON tcgp.group_id = tcg.id
+			LEFT JOIN t_player tp ON tp.id = tcgp.player_id
 		WHERE
 			tc.id = #{id}
 	</select>
@@ -164,12 +175,45 @@
 		</foreach>
 	</insert>
 
+	<insert id="insertCompetitionGroup" parameterType="map">
+		INSERT INTO t_competition_group (
+			name,
+			create_time,
+			update_time,
+			competition_id
+		) VALUES (
+			#{name},
+			NOW(),
+			NOW(),
+			#{competitionId}
+		)
+	</insert>
+
+	<insert id="insertCompetition" parameterType="map">
+		INSERT INTO t_competition (
+			name,
+			description,
+			participant_limit,
+			date,
+			create_time,
+			update_time
+		) VALUES (
+			#{name},
+			#{description},
+			#{participantLimit},
+			#{date},
+			NOW(),
+			NOW()
+		)
+	</insert>
+
 	<select id="selectCompetitionGroupPlayerByKey" parameterType="map" resultMap="competitionGroupPlayerResult">
 		SELECT
 			<include refid="competitionGroupPlayerColumns"/>,
 		    <include refid="playerColumns"/>
 		FROM
 			t_competition_group_player tcgp
+			INNER JOIN t_player tp ON tp.id = tcgp.player_id
 		WHERE
 			tcgp.group_id = #{groupId} AND tcgp.player_id = #{playerId}
 	</select>
@@ -191,6 +235,23 @@
 	<delete id="deleteCompetitionGroupPlayer" parameterType="map">
 		DELETE FROM t_competition_group_player WHERE id = #{id}
 	</delete>
+
+	<delete id="deleteCompetitionGroupPlayerByCompetitionIdAndPlayerId" parameterType="map">
+		DELETE FROM t_competition_group_player WHERE player_id = #{competitionId} AND group_id = #{playerId}
+	</delete>
+
+	<delete id="deleteCompetitionPlayer" parameterType="map">
+		DELETE FROM t_competition_player WHERE id = #{id}
+	</delete>
+
+	<select id="selectCompetitionPlayerByPlayerIdAndCompetitionId" parameterType="map" resultMap="competitionPlayerResult">
+		SELECT
+			<include refid="competitionPlayerColumns"/>
+		FROM
+			t_competition_player tcp
+		WHERE
+			tcp.player_id = #{playerId} AND tcp.competition_id = #{competitionId}
+	</select>
 
 	<select id="selectCompetitionPlayerByPlayerNameAndCompetitionId" parameterType="map" resultMap="competitionPlayerResult">
 		SELECT
@@ -223,4 +284,70 @@
 		    NOW()
 		)
 	</insert>
+
+	<select id="selectCompetitionPlayerById" parameterType="map" resultMap="competitionPlayerResult">
+		SELECT
+			<include refid="competitionPlayerColumns"/>
+		FROM
+			t_competition_player tcp
+		WHERE
+			tcp.id = #{id}
+	</select>
+
+	<select id="selectNotCompetitionPlayers" parameterType="map" resultMap="playerResult">
+		SELECT
+			<include refid="playerColumns"/>
+		FROM
+			t_player tp
+		WHERE
+		  	NOT EXISTS (
+				SELECT 1 FROM t_competition_player tcp WHERE tcp.player_id = tp.id AND tcp.competition_id = #{competitionId}
+			)
+	</select>
+
+	<select id="selectNotGroupPlayers" parameterType="map" resultMap="playerResult">
+		SELECT
+			<include refid="playerColumns"/>
+		FROM
+			t_competition_player tcp
+			INNER JOIN t_player tp ON tp.id = tcp.player_id
+		WHERE
+			tcp.competition_id = #{competitionId}
+		  	AND NOT EXISTS (
+				SELECT
+					1
+				FROM
+					t_competition_group_player tcgp
+					INNER JOIN t_competition_group tcg ON tcg.id = tcgp.group_id
+				WHERE
+				 	tcgp.player_id = tcp.player_id AND tcg.competition_id = #{competitionId}
+			)
+	</select>
+
+	<delete id="deleteCompetitionGroupPlayerByGroupId" parameterType="map">
+		DELETE FROM t_competition_group_player WHERE group_id = #{groupId}
+	</delete>
+
+	<delete id="deleteCompetitionGroup" parameterType="map">
+		DELETE FROM t_competition_group WHERE id = #{groupId}
+	</delete>
+
+	<select id="selectLastCompetitionGroupByCompetitionId" parameterType="map" resultMap="competitionGroupResult">
+		SELECT
+			<include refid="competitionGroupColumns"/>
+		FROM
+			t_competition_group tcg
+		WHERE
+			tcg.competition_id = #{competitionId}
+		ORDER BY tcg.id DESC
+		LIMIT 1
+	</select>
+
+	<delete id="deleteCompetitionPlayerByPlayerId" parameterType="map">
+		DELETE FROM t_competition_player WHERE player_id = #{playerId}
+	</delete>
+
+	<delete id="deleteCompetitionGroupPlayerByPlayerId" parameterType="map">
+		DELETE FROM t_competition_group_player WHERE player_id = #{playerId}
+	</delete>
 </mapper>

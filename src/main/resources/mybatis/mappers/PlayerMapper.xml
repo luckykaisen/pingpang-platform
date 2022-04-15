@@ -48,4 +48,48 @@
 		    NOW()
 	    )
 	</insert>
+
+	<sql id="playerFilter">
+		<if test="filter.name != null">
+			AND tp.name LIKE #{filter.name}
+		</if>
+	</sql>
+
+	<select id="selectPlayerByFilter" parameterType="map" resultMap="playerResult">
+		SELECT
+			<include refid="playerColumns"/>
+		FROM
+			t_player tp
+		<where>
+			<include refid="playerFilter"/>
+		</where>
+		ORDER BY tp.id DESC
+	</select>
+
+	<select id="countPlayerByFilter" parameterType="map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			t_player tp
+		<where>
+			<include refid="playerFilter"/>
+		</where>
+	</select>
+
+	<update id="updatePlayer" parameterType="map">
+		UPDATE
+		    t_player
+		<set>
+			<if test="name != null">
+				name = #{name}
+			</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+
+	<delete id="deletePlayer" parameterType="map">
+		DELETE FROM t_player WHERE id = #{id}
+	</delete>
 </mapper>

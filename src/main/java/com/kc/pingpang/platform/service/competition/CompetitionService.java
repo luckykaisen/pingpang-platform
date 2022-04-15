@@ -3,9 +3,7 @@ package com.kc.pingpang.platform.service.competition;
 import com.kc.pingpang.platform.data.filter.CompetitionFilter;
 import com.kc.pingpang.platform.data.mapper.CompetitionMapper;
 import com.kc.pingpang.platform.data.mapper.PlayerMapper;
-import com.kc.pingpang.platform.data.model.Competition;
-import com.kc.pingpang.platform.data.model.CompetitionPlayer;
-import com.kc.pingpang.platform.data.model.Player;
+import com.kc.pingpang.platform.data.model.*;
 import com.kc.pingpang.platform.freamwork.db.filter.PagingData;
 import com.kc.pingpang.platform.freamwork.db.filter.PagingResult;
 import com.kc.pingpang.platform.freamwork.db.filter.SearchResult;
@@ -68,5 +66,44 @@ public class CompetitionService implements ICompetitionService {
         competitionPlayer.setCompetitionId(competition.getId());
 
         competitionMapper.insertCompetitionPlayer(competitionPlayer);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCompetitionPlayer(CompetitionPlayer competitionPlayer) {
+
+        competitionMapper.deleteCompetitionGroupPlayerByCompetitionIdAndPlayerId(
+                competitionPlayer.getCompetitionId(), competitionPlayer.getPlayerId());
+
+        competitionMapper.deleteCompetitionPlayer(competitionPlayer.getId());
+    }
+
+    @Override
+    @Transactional
+    public void deleteCompetitionGroup(Integer groupId) {
+        competitionMapper.deleteCompetitionGroupPlayerByGroupId(groupId);
+        competitionMapper.deleteCompetitionGroup(groupId);
+    }
+
+    @Override
+    @Transactional
+    public void addCompetitionGroup(Integer id) {
+
+        CompetitionGroup lastGroup = competitionMapper.selectLastCompetitionGroupByCompetitionId(id);
+
+        CompetitionGroup group = new CompetitionGroup();
+        group.setCompetitionId(id);
+
+        if (lastGroup == null) {
+            group.setName(Group.GROUP_1.getName());
+        } else {
+            Group nextGroup = Group.fromId(Group.fromName(lastGroup.getName()).getId() + 1);
+
+            if (nextGroup != null) {
+                group.setName(nextGroup.getName());
+            }
+        }
+
+        competitionMapper.insertCompetitionGroup(group);
     }
 }
