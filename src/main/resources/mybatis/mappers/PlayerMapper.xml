@@ -10,7 +10,11 @@
 		<result property="createTime" column="player_create_time" />
 		<result property="updateTime" column="player_update_time" />
 	</resultMap>
-		
+
+	<sql id="pagingLimit">
+		<include refid="com.kc.pingpang.platform.data.mapper.CommonDataMapper.pagingLimit"/>
+	</sql>
+
 	<sql id="playerColumns">
 		tp.id AS player_id,
 		tp.name AS player_name,
@@ -64,6 +68,7 @@
 			<include refid="playerFilter"/>
 		</where>
 		ORDER BY tp.id DESC
+		<include refid="pagingLimit"/>
 	</select>
 
 	<select id="countPlayerByFilter" parameterType="map" resultType="int">
