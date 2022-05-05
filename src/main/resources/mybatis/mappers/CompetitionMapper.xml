@@ -350,4 +350,17 @@
 	<delete id="deleteCompetitionGroupPlayerByPlayerId" parameterType="map">
 		DELETE FROM t_competition_group_player WHERE player_id = #{playerId}
 	</delete>
+
+	<update id="updateCompetitionGroup" parameterType="map">
+		UPDATE
+			t_competition_group
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
 </mapper>

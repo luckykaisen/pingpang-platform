@@ -1,9 +1,12 @@
 package com.kc.pingpang.platform.controller.console.competition.api;
 
 import com.kc.pingpang.platform.data.model.CompetitionPlayer;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CompetitionPlayerVO {
 
@@ -12,12 +15,18 @@ public class CompetitionPlayerVO {
     public static List<CompetitionPlayerVO> toVOs(List<CompetitionPlayer> competitionPlayers) {
 
         List<CompetitionPlayerVO> vos = new ArrayList<>();
-        for (CompetitionPlayer competitionPlayer : competitionPlayers) {
+        if (!CollectionUtils.isEmpty(competitionPlayers)) {
 
-            CompetitionPlayerVO vo = new CompetitionPlayerVO();
-            vo.setName(competitionPlayer.getPlayerName());
+            List<CompetitionPlayer> list = competitionPlayers.stream().
+                    sorted(Comparator.comparing(CompetitionPlayer::getId).reversed()).collect(Collectors.toList());
 
-            vos.add(vo);
+            for (CompetitionPlayer competitionPlayer : list) {
+
+                CompetitionPlayerVO vo = new CompetitionPlayerVO();
+                vo.setName(competitionPlayer.getPlayerName());
+
+                vos.add(vo);
+            }
         }
 
         return vos;

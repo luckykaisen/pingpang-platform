@@ -1,7 +1,6 @@
 package com.kc.pingpang.platform.controller.console.competition.api;
 
 import com.kc.pingpang.platform.data.model.Competition;
-import com.kc.pingpang.platform.data.model.CompetitionPlayer;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
 
@@ -16,14 +15,14 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
     private String date;
     private List<CompetitionPlayerVO> players;
 
-    public GetCompetitionDetailResponse(Competition competition, List<CompetitionPlayer> competitionPlayers) {
+    public GetCompetitionDetailResponse(Competition competition) {
 
         this.id = competition.getId();
         this.name = competition.getName();
         this.description = competition.getDescription();
         this.date = DateTimeUtility.formatYYYYMMDD(competition.getDate());
         this.participantLimit = competition.getParticipantLimit();
-        this.players = CompetitionPlayerVO.toVOs(competitionPlayers);
+        this.players = CompetitionPlayerVO.toVOs(competition.getCompetitionPlayers());
     }
 
     public Integer getId() {

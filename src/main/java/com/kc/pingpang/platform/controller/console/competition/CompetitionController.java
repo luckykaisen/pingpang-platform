@@ -63,8 +63,6 @@ public class CompetitionController {
 
         Competition competition = competitionMapper.selectCompetitionById(id);
 
-        List<CompetitionPlayer> competitionPlayers = competitionMapper.selectCompetitionPlayerByCompetitionId(id);
-
-        return new GetCompetitionDetailResponse(competition, competitionPlayers);
+        return new GetCompetitionDetailResponse(competition);
     }
 }

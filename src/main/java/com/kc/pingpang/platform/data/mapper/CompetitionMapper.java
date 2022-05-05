@@ -55,4 +55,6 @@ public interface CompetitionMapper {
     void deleteCompetitionPlayerByPlayerId(Integer playerId);
 
     void deleteCompetitionGroupPlayerByPlayerId(Integer playerId);
+
+    void updateCompetitionGroup(CompetitionGroup group);
 }

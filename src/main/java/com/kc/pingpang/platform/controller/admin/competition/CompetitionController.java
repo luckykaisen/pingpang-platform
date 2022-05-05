@@ -145,6 +145,18 @@ public class CompetitionController {
         return new ServiceResponse();
     }
 
+    @RequestMapping("/group/modify")
+    public ServiceResponse modifyCompetitionGroup(@RequestBody ModifyCompetitionGroupRequest request) {
+
+        CompetitionGroup group = new CompetitionGroup();
+        group.setId(request.getId());
+        group.setName(request.getName());
+
+        competitionMapper.updateCompetitionGroup(group);
+
+        return new ServiceResponse();
+    }
+
     @RequestMapping("/group/delete")
     public ServiceResponse deleteCompetitionGroup(@RequestParam Integer id) {
 
