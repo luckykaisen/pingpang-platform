@@ -24,7 +24,7 @@ CREATE TABLE `t_competition_player` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `player_name` varchar(64) NOT NULL,
     `player_id` int(10) NOT NULL,
-    `competition_id` int(10) NOT NULL,
+    `competition_id` int(10) unsigned NOT NULL,
     `create_time` datetime NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_competition_player_player_name_competition`(`player_name`, `competition_id`),
