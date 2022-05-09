@@ -1,8 +1,8 @@
 FROM java:8
 
-COPY *.jar /pingpang-platform.jar
+COPY target/*.jar /pingpang-platform.jar
 
-CMD ["-Dspring.profiles.active=product"]
+CMD ["--spring.profiles.active=product"]
 
 EXPOSE 10010
 
