@@ -13,6 +13,9 @@ mysql部署命令:
 推送：
     docker push weikaisen/pingpang-platform:1.0
 
+拉取：
+    docker pull weikaisen/pingpang-platform:1.0
+
 部署：
     docker run -d --name pingpang-admin-1 -p 8080:10010 --net pingpang-network weikaisen/pingpang-platform:1.0
 
