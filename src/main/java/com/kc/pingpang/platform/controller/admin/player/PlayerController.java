@@ -6,14 +6,12 @@ import com.kc.pingpang.platform.data.model.Player;
 import com.kc.pingpang.platform.freamwork.db.filter.SearchResult;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.service.player.api.IPlayerService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@CrossOrigin
 @RestController("AdminPlayerController")
 @RequestMapping("/services/rs/admin/player")
 public class PlayerController {

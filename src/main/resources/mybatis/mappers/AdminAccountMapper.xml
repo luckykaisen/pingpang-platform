@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kc.pingpang.platform.data.mapper.AdminAccountMapper">
+
+	<resultMap id="adminAccountResult" type="AdminAccount">
+		<id property="id" column="admin_account_id"/>
+		<result property="loginName" column="admin_account_login_name"/>
+		<result property="password" column="admin_account_password" />
+		<result property="salt" column="admin_account_salt" />
+		<result property="createTime" column="admin_account_create_time" />
+		<result property="updateTime" column="admin_account_update_time"/>
+	</resultMap>
+
+	<sql id="pagingLimit">
+		<include refid="com.kc.pingpang.platform.data.mapper.CommonDataMapper.pagingLimit"/>
+	</sql>
+
+	<sql id="adminAccountColumns">
+		taa.id AS admin_account_id,
+		taa.login_name AS admin_account_login_name,
+		taa.password AS admin_account_password,
+		taa.salt AS admin_account_salt,
+		taa.create_time AS admin_account_create_time,
+		taa.update_time AS admin_account_update_time
+	</sql>
+
+	<select id="selectAdminAccountByLoginName" parameterType="map" resultMap="adminAccountResult">
+		SELECT
+			<include refid="adminAccountColumns"/>
+		FROM
+			t_admin_account taa
+		WHERE
+			login_name = #{loginName}
+	</select>
+
+	<select id="selectAdminAccountById" parameterType="map" resultMap="adminAccountResult">
+		SELECT
+			<include refid="adminAccountColumns"/>
+		FROM
+			t_admin_account taa
+		WHERE
+			taa.id = #{id}
+	</select>
+
+</mapper>

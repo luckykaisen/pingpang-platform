@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController("AdminCompetitionController")
 @RequestMapping("/services/rs/admin/competition")
 public class CompetitionController {

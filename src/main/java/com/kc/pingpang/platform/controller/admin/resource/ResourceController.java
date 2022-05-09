@@ -5,6 +5,7 @@ import com.kc.pingpang.platform.controller.admin.resource.api.DefaultResourceVO;
 import com.kc.pingpang.platform.data.mapper.CompetitionMapper;
 import com.kc.pingpang.platform.data.model.Player;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController("AdminResourceController")
 @RequestMapping("/services/rs/admin/resource")
 public class ResourceController {

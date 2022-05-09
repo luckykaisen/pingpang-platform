@@ -6,10 +6,13 @@
 	
 	<typeAliases>
 		<!-- Handlers 请安字母顺序排列 -->
+		<typeAlias alias="AdminAccount" type="com.kc.pingpang.platform.data.model.AdminAccount"/>
+
 		<typeAlias alias="Competition" type="com.kc.pingpang.platform.data.model.Competition"/>
 		<typeAlias alias="CompetitionGroup" type="com.kc.pingpang.platform.data.model.CompetitionGroup"/>
 		<typeAlias alias="CompetitionGroupPlayer" type="com.kc.pingpang.platform.data.model.CompetitionGroupPlayer"/>
 		<typeAlias alias="CompetitionPlayer" type="com.kc.pingpang.platform.data.model.CompetitionPlayer"/>
+
 		<typeAlias alias="Player" type="com.kc.pingpang.platform.data.model.Player"/>
 	</typeAliases>
 </configuration>
