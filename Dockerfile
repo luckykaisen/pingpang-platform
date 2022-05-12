@@ -1,6 +1,6 @@
 FROM java:8
 
-COPY target/*.jar /pingpang-platform.jar
+COPY *.jar /pingpang-platform.jar
 
 CMD ["--spring.profiles.active=product"]
 
