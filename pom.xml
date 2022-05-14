@@ -19,6 +19,10 @@
         <com.alibaba.fastjson>1.1.36</com.alibaba.fastjson>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-codec.version>1.15</commons-codec.version>
+        <easyexcel.version>3.1.0</easyexcel.version>
+        <apache.poi.version>4.1.1</apache.poi.version>
+        <commons.collections4.version>4.1</commons.collections4.version>
+        <mybatis.spring.boot.starter>2.2.2</mybatis.spring.boot.starter>
     </properties>
     <dependencies>
         <dependency>
@@ -28,7 +32,7 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.2.2</version>
+            <version>${mybatis.spring.boot.starter}</version>
         </dependency>
 
         <dependency>
@@ -55,6 +59,31 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${com.alibaba.fastjson}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons.collections4.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${apache.poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${apache.poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>${apache.poi.version}</version>
         </dependency>
     </dependencies>
 

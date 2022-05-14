@@ -16,4 +16,6 @@ public interface ICompetitionService {
     void deleteCompetitionGroup(Integer id);
 
     void addCompetitionGroup(Integer id);
+
+    String downloadGroupRoundRobinExcel(Integer id) throws Exception;
 }

@@ -5,9 +5,12 @@ import com.kc.pingpang.platform.data.mapper.CompetitionMapper;
 import com.kc.pingpang.platform.data.mapper.PlayerMapper;
 import com.kc.pingpang.platform.data.model.*;
 import com.kc.pingpang.platform.freamwork.db.filter.SearchResult;
+import com.kc.pingpang.platform.freamwork.http.api.api.DownloadServiceResponse;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
+import com.kc.pingpang.platform.service.business.excel.group.cycle.GroupCycleExcel;
 import com.kc.pingpang.platform.service.competition.api.ICompetitionService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,9 @@ import java.util.List;
 @RestController("AdminCompetitionController")
 @RequestMapping("/services/rs/admin/competition")
 public class CompetitionController {
+
+    @Value("${system.storage.path}")
+    private String storagePath;
 
     @Resource
     private ICompetitionService competitionService;
@@ -189,7 +195,6 @@ public class CompetitionController {
         return response;
     }
 
-
     @RequestMapping("/group/player/delete")
     public ServiceResponse deleteCompetitionGroupPlayer(@RequestParam Integer id) {
 
@@ -198,4 +203,23 @@ public class CompetitionController {
         return new ServiceResponse();
     }
 
+    // 小组循环
+    @RequestMapping("/group/round/robin/excel/download")
+    public ServiceResponse downloadGroupRoundRobinExcel(@RequestParam Integer id) throws Exception {
+
+        String url = competitionService.downloadGroupRoundRobinExcel(id);
+
+        return new DownloadServiceResponse(url);
+    }
+
+    // 小组大循环
+    @RequestMapping("/group/cycle/excel/download")
+    public ServiceResponse downloadGroupCycleExcel(@RequestParam Integer id) throws Exception {
+
+        Competition competition = competitionMapper.selectCompetitionById(id);
+
+        String url = new GroupCycleExcel(storagePath, competition.getGroups()).generate();
+
+        return new DownloadServiceResponse(url);
+    }
 }
