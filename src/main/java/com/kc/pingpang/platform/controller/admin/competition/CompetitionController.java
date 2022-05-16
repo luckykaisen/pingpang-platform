@@ -26,6 +26,10 @@ public class CompetitionController {
     @Value("${system.storage.path}")
     private String storagePath;
 
+    @Value("${server.host.url}")
+    private String hostUrl;
+
+
     @Resource
     private ICompetitionService competitionService;
 
@@ -203,23 +207,20 @@ public class CompetitionController {
         return new ServiceResponse();
     }
 
-    // 小组循环
-    @RequestMapping("/group/round/robin/excel/download")
-    public ServiceResponse downloadGroupRoundRobinExcel(@RequestParam Integer id) throws Exception {
+    @RequestMapping("/group/against/excel/download")
+    public ServiceResponse downloadGroupRoundRobinExcel(@RequestBody DownloadGroupAgainstExcelRequest request) throws Exception {
 
-        String url = competitionService.downloadGroupRoundRobinExcel(id);
+        String path = null;
 
-        return new DownloadServiceResponse(url);
-    }
+        GroupAgainstType type = GroupAgainstType.fromId(request.getTypeId());
+        if (GroupAgainstType.TYPE_1 == type) {
+            path = competitionService.downloadGroupRoundRobinExcel(request.getId());
+        } else if (GroupAgainstType.TYPE_2 == type) {
+            Competition competition = competitionMapper.selectCompetitionById(request.getId());
 
-    // 小组大循环
-    @RequestMapping("/group/cycle/excel/download")
-    public ServiceResponse downloadGroupCycleExcel(@RequestParam Integer id) throws Exception {
+            path = new GroupCycleExcel(storagePath, competition.getGroups()).generate();
+        }
 
-        Competition competition = competitionMapper.selectCompetitionById(id);
-
-        String url = new GroupCycleExcel(storagePath, competition.getGroups()).generate();
-
-        return new DownloadServiceResponse(url);
+        return new DownloadServiceResponse(hostUrl + path);
     }
 }
