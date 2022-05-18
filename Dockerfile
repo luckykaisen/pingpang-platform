@@ -1,6 +1,7 @@
 FROM java:8
 
-COPY *.jar /pingpang-platform.jar
+COPY /target/*.jar /pingpang-platform.jar
+COPY 顺序循环模板.xlsx /home/storage/pingpang/excel/template/顺序循环模板.xlsx
 
 CMD ["--spring.profiles.active=product"]
 

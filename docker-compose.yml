@@ -1,8 +1,7 @@
 version: "3.9"
 services:
   pingpang-platform-admin:
-    build: .
-    image: weikaisen/pingpang-platform-admin:1.0
+    image: ccr.ccs.tencentyun.com/weikaisen/pingpang-platform-admin:1.0
     container_name: pingpang-platform-admin
     depends_on:
       - mysql
@@ -11,14 +10,14 @@ services:
     networks:
       - pingpang-network
     volumes:
-      - storage:/home/storage
+      - pingpang-storage-volume:/home/storage
   mysql:
     image: "mysql:5.7"
     container_name: pingpang-platform-mysql
     networks:
       - pingpang-network
     ports:
-      - 3306:3306
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: l@0x1@n123
     command:
@@ -29,9 +28,8 @@ services:
       - "/home/mysql/data:/var/lib/mysql"
 networks:
   pingpang-network:
-    external: true
     name: pingpang-network
 
 volumes:
-  storage:
-    external: true
+  pingpang-storage-volume:
+    name: pingpang-storage-volume

@@ -8,6 +8,7 @@ import com.alibaba.excel.write.metadata.fill.FillConfig;
 import com.kc.pingpang.platform.data.model.CompetitionGroup;
 import com.kc.pingpang.platform.data.model.CompetitionGroupPlayer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,10 @@ public class GroupCycleExcel {
     public String generate() {
 
         String fileName = storagePath + "/excel/小组顺序循环-" + System.currentTimeMillis() + ".xlsx";
+        File file = new File(fileName);
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
 
         ExcelWriter excelWriter = EasyExcel.write(fileName).withTemplate(storagePath + "/excel/template/顺序循环模板.xlsx").build();
 

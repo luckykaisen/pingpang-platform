@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
@@ -244,7 +245,12 @@ public class CompetitionService implements ICompetitionService {
         }
 
         String path = storagePath + "/excel/小组循环-" + System.currentTimeMillis() + ".xlsx";
-        FileOutputStream fileOutputStream = new FileOutputStream(path);
+        File file = new File(path);
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
         workbook.write(fileOutputStream);
         fileOutputStream.close();
 
