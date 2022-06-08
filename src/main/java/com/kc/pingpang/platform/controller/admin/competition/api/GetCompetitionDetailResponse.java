@@ -13,6 +13,7 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
     private String date;
     private String createTime;
     private String updateTime;
+    private List<Integer> signUpOptionIds;
     private List<CompetitionPlayerVO> players;
     private List<CompetitionGroupVO> groups;
 
@@ -86,5 +87,13 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
 
     public void setGroups(List<CompetitionGroupVO> groups) {
         this.groups = groups;
+    }
+
+    public List<Integer> getSignUpOptionIds() {
+        return signUpOptionIds;
+    }
+
+    public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
+        this.signUpOptionIds = signUpOptionIds;
     }
 }

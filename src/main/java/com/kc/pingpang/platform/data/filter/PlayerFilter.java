@@ -1,6 +1,6 @@
 package com.kc.pingpang.platform.data.filter;
 
-import com.kc.pingpang.platform.freamwork.db.filter.SearchFilter;
+import com.kc.pingpang.platform.freamwork.model.db.filter.SearchFilter;
 import org.apache.commons.lang.StringUtils;
 
 public class PlayerFilter extends SearchFilter {

@@ -1,6 +1,10 @@
 package com.kc.pingpang.platform.data.model;
 
+import com.kc.pingpang.platform.freamwork.utils.StringUtility;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +13,7 @@ public class Competition implements Serializable {
     private Integer id;
     private String name;
     private String description;
+    private String signUpOptions;
     private Integer participantLimit;
     private Date date;
     private Date createTime;
@@ -16,6 +21,8 @@ public class Competition implements Serializable {
 
     private List<CompetitionPlayer> competitionPlayers;
     private List<CompetitionGroup> groups;
+
+    private Boolean nullSignUpOptions;
 
     public Integer getId() {
         return id;
@@ -87,5 +94,34 @@ public class Competition implements Serializable {
 
     public void setGroups(List<CompetitionGroup> groups) {
         this.groups = groups;
+    }
+
+    public String getSignUpOptions() {
+        return signUpOptions;
+    }
+
+    public List<CompetitionOption> getSignUpOptionList() {
+
+        List<CompetitionOption> list = new ArrayList<>();
+        if (StringUtils.isNotBlank(signUpOptions)) {
+            List<String> signUpOptionIds = StringUtility.split(signUpOptions);
+            for (String id : signUpOptionIds) {
+                list.add(CompetitionOption.fromId(Integer.valueOf(id)));
+            }
+        }
+
+        return list;
+    }
+
+    public void setSignUpOptions(String signUpOptions) {
+        this.signUpOptions = signUpOptions;
+    }
+
+    public Boolean getNullSignUpOptions() {
+        return nullSignUpOptions;
+    }
+
+    public void setNullSignUpOptions(Boolean nullSignUpOptions) {
+        this.nullSignUpOptions = nullSignUpOptions;
     }
 }

@@ -1,5 +1,7 @@
 package com.kc.pingpang.platform.data.model;
 
+import com.kc.pingpang.platform.freamwork.model.Bool;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,6 +9,7 @@ public class CompetitionPlayer implements Serializable {
 
     private Integer id;
     private String playerName;
+    private Bool dinner;
     private Integer playerId;
     private Integer competitionId;
     private Date createTime;
@@ -49,5 +52,13 @@ public class CompetitionPlayer implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Bool getDinner() {
+        return dinner;
+    }
+
+    public void setDinner(Bool dinner) {
+        this.dinner = dinner;
     }
 }

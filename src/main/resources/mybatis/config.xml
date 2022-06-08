@@ -6,6 +6,8 @@
 	
 	<typeAliases>
 		<!-- Handlers 请安字母顺序排列 -->
+		<typeAlias alias="Bool" type="com.kc.pingpang.platform.freamwork.model.Bool"/>
+
 		<typeAlias alias="AdminAccount" type="com.kc.pingpang.platform.data.model.AdminAccount"/>
 
 		<typeAlias alias="Competition" type="com.kc.pingpang.platform.data.model.Competition"/>

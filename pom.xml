@@ -23,6 +23,7 @@
         <apache.poi.version>4.1.1</apache.poi.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <mybatis.spring.boot.starter>2.2.2</mybatis.spring.boot.starter>
+        <com.alibaba.fastjson>1.1.36</com.alibaba.fastjson>
     </properties>
     <dependencies>
         <dependency>

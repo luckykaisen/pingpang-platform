@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class CompetitionPlayerVO {
 
     private String name;
+    private Boolean dinner;
 
     public static List<CompetitionPlayerVO> toVOs(List<CompetitionPlayer> competitionPlayers) {
 
@@ -24,6 +25,7 @@ public class CompetitionPlayerVO {
 
                 CompetitionPlayerVO vo = new CompetitionPlayerVO();
                 vo.setName(competitionPlayer.getPlayerName());
+                vo.setDinner(competitionPlayer.getDinner().getValue());
 
                 vos.add(vo);
             }
@@ -38,5 +40,13 @@ public class CompetitionPlayerVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getDinner() {
+        return dinner;
+    }
+
+    public void setDinner(Boolean dinner) {
+        this.dinner = dinner;
     }
 }

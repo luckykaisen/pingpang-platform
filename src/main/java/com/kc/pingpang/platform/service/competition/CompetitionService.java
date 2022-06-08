@@ -4,9 +4,9 @@ import com.kc.pingpang.platform.data.filter.CompetitionFilter;
 import com.kc.pingpang.platform.data.mapper.CompetitionMapper;
 import com.kc.pingpang.platform.data.mapper.PlayerMapper;
 import com.kc.pingpang.platform.data.model.*;
-import com.kc.pingpang.platform.freamwork.db.filter.PagingData;
-import com.kc.pingpang.platform.freamwork.db.filter.PagingResult;
-import com.kc.pingpang.platform.freamwork.db.filter.SearchResult;
+import com.kc.pingpang.platform.freamwork.model.db.filter.PagingData;
+import com.kc.pingpang.platform.freamwork.model.db.filter.PagingResult;
+import com.kc.pingpang.platform.freamwork.model.db.filter.SearchResult;
 import com.kc.pingpang.platform.service.competition.api.ICompetitionService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -59,7 +59,9 @@ public class CompetitionService implements ICompetitionService {
 
     @Override
     @Transactional
-    public void joinCompetition(String playerName, Competition competition) {
+    public void joinCompetition(CompetitionPlayer competitionPlayer, Competition competition) {
+
+        String playerName = competitionPlayer.getPlayerName();
 
         Player player = playerMapper.selectPlayerByName(playerName);
 
@@ -70,10 +72,7 @@ public class CompetitionService implements ICompetitionService {
             playerMapper.insertPlayer(player);
         }
 
-        CompetitionPlayer competitionPlayer = new CompetitionPlayer();
-        competitionPlayer.setPlayerName(player.getName());
         competitionPlayer.setPlayerId(player.getId());
-        competitionPlayer.setCompetitionId(competition.getId());
 
         competitionMapper.insertCompetitionPlayer(competitionPlayer);
     }

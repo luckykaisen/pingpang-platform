@@ -1,4 +1,4 @@
-package com.kc.pingpang.platform.freamwork.db.filter;
+package com.kc.pingpang.platform.freamwork.model.db.filter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

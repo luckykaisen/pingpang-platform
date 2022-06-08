@@ -1,6 +1,6 @@
 package com.kc.pingpang.platform.freamwork.http.api.api;
 
-import com.kc.pingpang.platform.freamwork.db.filter.PagingResult;
+import com.kc.pingpang.platform.freamwork.model.db.filter.PagingResult;
 
 public class PagingResponse extends ServiceResponse {
     private static final long serialVersionUID = 1L;

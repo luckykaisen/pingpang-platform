@@ -4,6 +4,7 @@ public class JoinCompetitionRequest {
 
     private Integer id;
     private String name;
+    private Boolean dinner;
 
     public Integer getId() {
         return id;
@@ -19,5 +20,13 @@ public class JoinCompetitionRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getDinner() {
+        return dinner;
+    }
+
+    public void setDinner(Boolean dinner) {
+        this.dinner = dinner;
     }
 }

@@ -4,7 +4,7 @@ public class JoinCompetitionRequest {
 
     private Integer id;
     private Integer playerId;
-
+    private Boolean dinner;
     public Integer getId() {
         return id;
     }
@@ -19,5 +19,13 @@ public class JoinCompetitionRequest {
 
     public void setPlayerId(Integer playerId) {
         this.playerId = playerId;
+    }
+
+    public Boolean getDinner() {
+        return dinner;
+    }
+
+    public void setDinner(Boolean dinner) {
+        this.dinner = dinner;
     }
 }

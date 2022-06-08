@@ -2,10 +2,14 @@ package com.kc.pingpang.platform.controller.admin.competition.api;
 
 import com.kc.pingpang.platform.data.model.Competition;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 public class CreateCompetitionRequest {
 
     private String name;
+    private List<Integer> signUpOptionIds;
     private String description;
     private String date;
     private Integer participantLimit;
@@ -13,6 +17,7 @@ public class CreateCompetitionRequest {
     public Competition toCompetition() throws Exception {
 
         Competition competition = new Competition();
+        competition.setSignUpOptions(StringUtils.join(signUpOptionIds, ","));
         competition.setName(name);
         competition.setDescription(description);
         competition.setDate(DateTimeUtility.parseYYYYMMDD(date));
@@ -51,5 +56,13 @@ public class CreateCompetitionRequest {
 
     public void setParticipantLimit(Integer participantLimit) {
         this.participantLimit = participantLimit;
+    }
+
+    public List<Integer> getSignUpOptionIds() {
+        return signUpOptionIds;
+    }
+
+    public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
+        this.signUpOptionIds = signUpOptionIds;
     }
 }

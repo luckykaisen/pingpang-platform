@@ -1,4 +1,4 @@
-package com.kc.pingpang.platform.freamwork.db.filter;
+package com.kc.pingpang.platform.freamwork.model.db.filter;
 
 
 public class PagingData {

@@ -1,4 +1,4 @@
-package com.kc.pingpang.platform.freamwork.db.filter;
+package com.kc.pingpang.platform.freamwork.model.db.filter;
 
 import com.kc.pingpang.platform.freamwork.http.api.api.PagingRequest;
 import org.springframework.util.Assert;

@@ -4,7 +4,8 @@ import com.kc.pingpang.platform.controller.admin.competition.api.*;
 import com.kc.pingpang.platform.data.mapper.CompetitionMapper;
 import com.kc.pingpang.platform.data.mapper.PlayerMapper;
 import com.kc.pingpang.platform.data.model.*;
-import com.kc.pingpang.platform.freamwork.db.filter.SearchResult;
+import com.kc.pingpang.platform.freamwork.model.Bool;
+import com.kc.pingpang.platform.freamwork.model.db.filter.SearchResult;
 import com.kc.pingpang.platform.freamwork.http.api.api.DownloadServiceResponse;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController("AdminCompetitionController")
@@ -28,7 +30,6 @@ public class CompetitionController {
 
     @Value("${server.host.url}")
     private String hostUrl;
-
 
     @Resource
     private ICompetitionService competitionService;
@@ -66,6 +67,7 @@ public class CompetitionController {
         response.setDate(DateTimeUtility.formatYYYYMMDD(competition.getDate()));
         response.setCreateTime(DateTimeUtility.formatYYYYMMDDHHMM(competition.getCreateTime()));
         response.setUpdateTime(DateTimeUtility.formatYYYYMMDDHHMM(competition.getUpdateTime()));
+        response.setSignUpOptionIds(competition.getSignUpOptionList().stream().map(CompetitionOption::getId).collect(Collectors.toList()));
         response.setPlayers(CompetitionPlayerVO.toVOs(competition.getCompetitionPlayers()));
         response.setGroups(CompetitionGroupVO.toVOs(competition.getGroups()));
 
@@ -112,6 +114,7 @@ public class CompetitionController {
         competitionPlayer.setPlayerName(player.getName());
         competitionPlayer.setPlayerId(player.getId());
         competitionPlayer.setCompetitionId(competition.getId());
+        competitionPlayer.setDinner(Bool.fromValue(request.getDinner()));
 
         competitionMapper.insertCompetitionPlayer(competitionPlayer);
 

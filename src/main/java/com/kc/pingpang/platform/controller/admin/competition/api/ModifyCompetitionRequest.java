@@ -2,11 +2,16 @@ package com.kc.pingpang.platform.controller.admin.competition.api;
 
 import com.kc.pingpang.platform.data.model.Competition;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 public class ModifyCompetitionRequest {
 
     private Integer id;
     private String name;
+    private List<Integer> signUpOptionIds;
     private String description;
     private String date;
     private Integer participantLimit;
@@ -19,6 +24,12 @@ public class ModifyCompetitionRequest {
         competition.setDescription(description);
         competition.setDate(DateTimeUtility.parseYYYYMMDD(date));
         competition.setParticipantLimit(participantLimit);
+
+        if (CollectionUtils.isNotEmpty(signUpOptionIds)) {
+            competition.setSignUpOptions(StringUtils.join(signUpOptionIds, ","));
+        } else {
+            competition.setNullSignUpOptions(true);
+        }
 
         return competition;
     }
@@ -61,5 +72,13 @@ public class ModifyCompetitionRequest {
 
     public void setParticipantLimit(Integer participantLimit) {
         this.participantLimit = participantLimit;
+    }
+
+    public List<Integer> getSignUpOptionIds() {
+        return signUpOptionIds;
+    }
+
+    public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
+        this.signUpOptionIds = signUpOptionIds;
     }
 }

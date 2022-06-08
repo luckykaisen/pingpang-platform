@@ -1,10 +1,12 @@
 package com.kc.pingpang.platform.controller.console.competition.api;
 
 import com.kc.pingpang.platform.data.model.Competition;
+import com.kc.pingpang.platform.data.model.CompetitionOption;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetCompetitionDetailResponse extends ServiceResponse {
 
@@ -13,6 +15,7 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
     private String description;
     private Integer participantLimit;
     private String date;
+    private List<Integer> signUpOptionIds;
     private List<CompetitionPlayerVO> players;
 
     public GetCompetitionDetailResponse(Competition competition) {
@@ -23,6 +26,7 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
         this.date = DateTimeUtility.formatYYYYMMDD(competition.getDate());
         this.participantLimit = competition.getParticipantLimit();
         this.players = CompetitionPlayerVO.toVOs(competition.getCompetitionPlayers());
+        this.signUpOptionIds = competition.getSignUpOptionList().stream().map(CompetitionOption::getId).collect(Collectors.toList());
     }
 
     public Integer getId() {
@@ -71,5 +75,13 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
 
     public void setParticipantLimit(Integer participantLimit) {
         this.participantLimit = participantLimit;
+    }
+
+    public List<Integer> getSignUpOptionIds() {
+        return signUpOptionIds;
+    }
+
+    public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
+        this.signUpOptionIds = signUpOptionIds;
     }
 }

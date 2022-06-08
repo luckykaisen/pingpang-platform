@@ -11,6 +11,7 @@
 		<id property="id" column="competition_id"/>
 		<result property="name" column="competition_name"/>
 		<result property="description" column="competition_description" />
+		<result property="signUpOptions" column="competition_sign_up_options" />
 		<result property="participantLimit" column="competition_participant_limit" />
 		<result property="date" column="competition_date" />
 		<result property="createTime" column="competition_create_time" />
@@ -43,6 +44,7 @@
 	<resultMap id="competitionPlayerResult" type="CompetitionPlayer">
 		<id property="id" column="competition_player_id"/>
 		<result property="playerName" column="competition_player_player_name"/>
+		<result property="dinner" column="competition_player_is_dinner" javaType="Bool"/>
 		<result property="playerId" column="competition_player_player_id"/>
 		<result property="createTime" column="competition_player_create_time"/>
 		<result property="competitionId" column="competition_player_competition_id"/>
@@ -60,6 +62,7 @@
 		tc.id AS competition_id,
 		tc.name AS competition_name,
 		tc.description AS competition_description,
+		tc.sign_up_options AS competition_sign_up_options,
 		tc.participant_limit AS competition_participant_limit,
 		tc.date AS competition_date,
 		tc.create_time AS competition_create_time,
@@ -85,6 +88,7 @@
 	<sql id="competitionPlayerColumns">
 		tcp.id AS competition_player_id,
 		tcp.player_name AS competition_player_player_name,
+		tcp.is_dinner AS competition_player_is_dinner,
 		tcp.player_id AS competition_player_player_id,
 		tcp.competition_id AS competition_player_competition_id,
 		tcp.create_time AS competition_player_create_time
@@ -129,11 +133,17 @@
 			<if test="description != null">
 				description = #{description},
 			</if>
+			<if test="signUpOptions != null">
+				sign_up_options = #{signUpOptions},
+			</if>
 			<if test="participantLimit != null">
 				participant_limit = #{participantLimit},
 			</if>
 			<if test="date != null">
 				date = #{date},
+			</if>
+			<if test="nullSignUpOptions != null and nullSignUpOptions == true">
+				sign_up_options = null,
 			</if>
 		</set>
 		<where>
@@ -193,6 +203,7 @@
 		INSERT INTO t_competition (
 			name,
 			description,
+			sign_up_options,
 			participant_limit,
 			date,
 			create_time,
@@ -200,6 +211,7 @@
 		) VALUES (
 			#{name},
 			#{description},
+			#{signUpOptions},
 			#{participantLimit},
 			#{date},
 			NOW(),
@@ -274,11 +286,13 @@
 	<insert id="insertCompetitionPlayer" parameterType="map">
 		INSERT INTO t_competition_player (
 			player_name,
+			is_dinner,
 			player_id,
 			competition_id,
 			create_time
 		) VALUES (
 			#{playerName},
+			#{dinner.code},
 			#{playerId},
 			#{competitionId},
 		    NOW()
