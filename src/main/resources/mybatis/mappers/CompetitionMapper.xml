@@ -13,6 +13,8 @@
 		<result property="description" column="competition_description" />
 		<result property="signUpOptions" column="competition_sign_up_options" />
 		<result property="participantLimit" column="competition_participant_limit" />
+		<result property="signUpPrice" column="competition_sign_up_price" />
+		<result property="dinnerPrice" column="competition_dinner_price" />
 		<result property="date" column="competition_date" />
 		<result property="createTime" column="competition_create_time" />
 		<result property="updateTime" column="competition_update_time"/>
@@ -64,6 +66,8 @@
 		tc.description AS competition_description,
 		tc.sign_up_options AS competition_sign_up_options,
 		tc.participant_limit AS competition_participant_limit,
+		tc.sign_up_price AS competition_sign_up_price,
+		tc.dinner_price AS competition_dinner_price,
 		tc.date AS competition_date,
 		tc.create_time AS competition_create_time,
 		tc.update_time AS competition_update_time
@@ -139,6 +143,12 @@
 			<if test="participantLimit != null">
 				participant_limit = #{participantLimit},
 			</if>
+			<if test="signUpPrice != null">
+				sign_up_price = #{signUpPrice},
+			</if>
+			<if test="dinnerPrice != null">
+				dinner_price = #{dinnerPrice},
+			</if>
 			<if test="date != null">
 				date = #{date},
 			</if>
@@ -205,6 +215,8 @@
 			description,
 			sign_up_options,
 			participant_limit,
+			sign_up_price,
+			dinner_price,
 			date,
 			create_time,
 			update_time
@@ -213,6 +225,8 @@
 			#{description},
 			#{signUpOptions},
 			#{participantLimit},
+			#{signUpPrice},
+			#{dinnerPrice},
 			#{date},
 			NOW(),
 			NOW()

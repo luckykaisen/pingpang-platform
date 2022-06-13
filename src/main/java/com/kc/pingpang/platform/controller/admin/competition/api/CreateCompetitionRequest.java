@@ -4,6 +4,7 @@ import com.kc.pingpang.platform.data.model.Competition;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
 import org.apache.commons.lang.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CreateCompetitionRequest {
@@ -11,6 +12,8 @@ public class CreateCompetitionRequest {
     private String name;
     private List<Integer> signUpOptionIds;
     private String description;
+    private String signUpPrice;
+    private String dinnerPrice;
     private String date;
     private Integer participantLimit;
 
@@ -22,6 +25,8 @@ public class CreateCompetitionRequest {
         competition.setDescription(description);
         competition.setDate(DateTimeUtility.parseYYYYMMDD(date));
         competition.setParticipantLimit(participantLimit);
+        competition.setSignUpPrice(new BigDecimal(signUpPrice));
+        competition.setDinnerPrice(new BigDecimal(dinnerPrice));
 
         return competition;
     }
@@ -64,5 +69,21 @@ public class CreateCompetitionRequest {
 
     public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
         this.signUpOptionIds = signUpOptionIds;
+    }
+
+    public String getSignUpPrice() {
+        return signUpPrice;
+    }
+
+    public void setSignUpPrice(String signUpPrice) {
+        this.signUpPrice = signUpPrice;
+    }
+
+    public String getDinnerPrice() {
+        return dinnerPrice;
+    }
+
+    public void setDinnerPrice(String dinnerPrice) {
+        this.dinnerPrice = dinnerPrice;
     }
 }

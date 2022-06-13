@@ -7,6 +7,7 @@
 	<typeAliases>
 		<!-- Handlers 请安字母顺序排列 -->
 		<typeAlias alias="Bool" type="com.kc.pingpang.platform.freamwork.model.Bool"/>
+		<typeAlias alias="EnumIdTypeHandler" type="com.kc.pingpang.platform.freamwork.mybatis.typehandler.EnumIdTypeHandler"/>
 
 		<typeAlias alias="AdminAccount" type="com.kc.pingpang.platform.data.model.AdminAccount"/>
 
@@ -14,6 +15,9 @@
 		<typeAlias alias="CompetitionGroup" type="com.kc.pingpang.platform.data.model.CompetitionGroup"/>
 		<typeAlias alias="CompetitionGroupPlayer" type="com.kc.pingpang.platform.data.model.CompetitionGroupPlayer"/>
 		<typeAlias alias="CompetitionPlayer" type="com.kc.pingpang.platform.data.model.CompetitionPlayer"/>
+
+		<typeAlias alias="Order" type="com.kc.pingpang.platform.data.model.Order"/>
+		<typeAlias alias="OrderStatus" type="com.kc.pingpang.platform.data.model.OrderStatus"/>
 
 		<typeAlias alias="Player" type="com.kc.pingpang.platform.data.model.Player"/>
 	</typeAliases>

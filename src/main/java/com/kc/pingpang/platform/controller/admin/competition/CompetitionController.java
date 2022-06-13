@@ -9,8 +9,8 @@ import com.kc.pingpang.platform.freamwork.model.db.filter.SearchResult;
 import com.kc.pingpang.platform.freamwork.http.api.api.DownloadServiceResponse;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.freamwork.utils.DateTimeUtility;
-import com.kc.pingpang.platform.service.business.excel.group.cycle.GroupCycleExcel;
-import com.kc.pingpang.platform.service.competition.api.ICompetitionService;
+import com.kc.pingpang.platform.business.service.business.excel.group.cycle.GroupCycleExcel;
+import com.kc.pingpang.platform.business.service.competition.api.ICompetitionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +70,8 @@ public class CompetitionController {
         response.setSignUpOptionIds(competition.getSignUpOptionList().stream().map(CompetitionOption::getId).collect(Collectors.toList()));
         response.setPlayers(CompetitionPlayerVO.toVOs(competition.getCompetitionPlayers()));
         response.setGroups(CompetitionGroupVO.toVOs(competition.getGroups()));
+        response.setSignUpPrice(competition.getSignUpPrice().toString());
+        response.setDinnerPrice(competition.getDinnerPrice().toString());
 
         return response;
     }

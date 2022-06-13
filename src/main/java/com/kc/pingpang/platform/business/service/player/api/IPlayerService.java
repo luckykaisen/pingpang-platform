@@ -1,4 +1,4 @@
-package com.kc.pingpang.platform.service.player.api;
+package com.kc.pingpang.platform.business.service.player.api;
 
 import com.kc.pingpang.platform.data.filter.PlayerFilter;
 import com.kc.pingpang.platform.data.model.Player;

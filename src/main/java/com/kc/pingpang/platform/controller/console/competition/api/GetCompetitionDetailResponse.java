@@ -14,6 +14,9 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
     private String name;
     private String description;
     private Integer participantLimit;
+
+    private String signUpPrice;
+    private String dinnerPrice;
     private String date;
     private List<Integer> signUpOptionIds;
     private List<CompetitionPlayerVO> players;
@@ -27,6 +30,8 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
         this.participantLimit = competition.getParticipantLimit();
         this.players = CompetitionPlayerVO.toVOs(competition.getCompetitionPlayers());
         this.signUpOptionIds = competition.getSignUpOptionList().stream().map(CompetitionOption::getId).collect(Collectors.toList());
+        this.signUpPrice = competition.getSignUpPrice().toString();
+        this.dinnerPrice = competition.getDinnerPrice().toString();
     }
 
     public Integer getId() {
@@ -83,5 +88,21 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
 
     public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
         this.signUpOptionIds = signUpOptionIds;
+    }
+
+    public String getSignUpPrice() {
+        return signUpPrice;
+    }
+
+    public void setSignUpPrice(String signUpPrice) {
+        this.signUpPrice = signUpPrice;
+    }
+
+    public String getDinnerPrice() {
+        return dinnerPrice;
+    }
+
+    public void setDinnerPrice(String dinnerPrice) {
+        this.dinnerPrice = dinnerPrice;
     }
 }

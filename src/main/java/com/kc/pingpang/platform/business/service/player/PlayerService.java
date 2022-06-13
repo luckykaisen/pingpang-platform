@@ -1,5 +1,6 @@
-package com.kc.pingpang.platform.service.player;
+package com.kc.pingpang.platform.business.service.player;
 
+import com.kc.pingpang.platform.business.service.player.api.IPlayerService;
 import com.kc.pingpang.platform.data.filter.PlayerFilter;
 import com.kc.pingpang.platform.data.mapper.CompetitionMapper;
 import com.kc.pingpang.platform.data.mapper.PlayerMapper;
@@ -7,7 +8,6 @@ import com.kc.pingpang.platform.data.model.Player;
 import com.kc.pingpang.platform.freamwork.model.db.filter.PagingData;
 import com.kc.pingpang.platform.freamwork.model.db.filter.PagingResult;
 import com.kc.pingpang.platform.freamwork.model.db.filter.SearchResult;
-import com.kc.pingpang.platform.service.player.api.IPlayerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

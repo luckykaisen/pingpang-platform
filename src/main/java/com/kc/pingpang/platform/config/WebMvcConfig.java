@@ -24,6 +24,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         EXCLUDE_PATH_PATTERNS.add("/services/rs/admin/account/logout");
         EXCLUDE_PATH_PATTERNS.add("/services/rs/console/competition/join");
         EXCLUDE_PATH_PATTERNS.add("/services/rs/console/competition/detail");
+        EXCLUDE_PATH_PATTERNS.add("/services/rs/console/order/create");
+        EXCLUDE_PATH_PATTERNS.add("/services/rs/console/order/notify");
     }
 
     @Override

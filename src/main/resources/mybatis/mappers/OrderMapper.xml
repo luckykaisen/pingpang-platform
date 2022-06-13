@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kc.pingpang.platform.data.mapper.OrderMapper">
+
+	<resultMap id="orderResult" type="Order">
+		<id property="id" column="order_id"/>
+		<result property="orderNumber" column="order_order_number"/>
+		<result property="title" column="order_title" />
+		<result property="playerName" column="order_player_name" />
+		<result property="dinner" column="order_is_dinner" />
+		<result property="amount" column="order_amount" />
+		<result property="goodsUrl" column="order_goods_url" />
+		<result property="payUrl" column="order_pay_url" />
+		<result property="qrcodeUrl" column="order_qrcode_url" />
+		<result property="payTime" column="order_pay_time" />
+		<result property="cancelTime" column="order_cancel_time" />
+		<result property="createTime" column="order_create_time" />
+		<result property="updateTime" column="order_update_time" />
+		<result property="competitionId" column="order_competition_id" />
+		<result property="status" column="order_status_id" javaType="OrderStatus" typeHandler="EnumIdTypeHandler"/>
+	</resultMap>
+
+	<sql id="pagingLimit">
+		<include refid="com.kc.pingpang.platform.data.mapper.CommonDataMapper.pagingLimit"/>
+	</sql>
+
+	<sql id="orderColumns">
+		tor.id AS order_id,
+		tor.order_number AS order_order_number,
+		tor.title AS order_title,
+		tor.player_name AS order_player_name,
+		tor.is_dinner AS order_is_dinner,
+		tor.amount AS order_amount,
+		tor.goods_url AS order_goods_url,
+		tor.pay_url AS order_pay_url,
+		tor.qrcode_url AS order_qrcode_url,
+		tor.pay_time AS order_pay_time,
+		tor.cancel_time AS order_cancel_time,
+		tor.create_time AS order_create_time,
+		tor.update_time AS order_update_time,
+		tor.competition_id AS order_competition_id,
+		tor.status_id AS order_status_id
+	</sql>
+
+	<select id="selectOrderByOrderNumber" parameterType="map" resultMap="orderResult">
+		SELECT
+		    <include refid="orderColumns"/>
+		FROM
+			t_order tor
+		WHERE
+		    tor.order_number = #{orderNumber}
+	</select>
+
+	<insert id="insertOrder" parameterType="map">
+		INSERT INTO t_order (
+			order_number,
+			title,
+			player_name,
+			is_dinner,
+			amount,
+			goods_url,
+			pay_url,
+			qrcode_url,
+			pay_time,
+			create_time,
+			update_time,
+			competition_id,
+			status_id
+		) VALUES (
+		    #{orderNumber},
+		    #{title},
+		    #{playerName},
+		    #{dinner.code},
+		    #{amount},
+		    #{goodsUrl},
+		    #{payUrl},
+		    #{qrcodeUrl},
+		    #{payTime},
+		    NOW(),
+		    NOW(),
+		    #{competitionId},
+		    #{status.id}
+		)
+	</insert>
+
+	<sql id="orderFilter">
+		<if test="filter.competitionId != null">
+			AND tor.competition_id = #{filter.competitionId}
+		</if>
+		<if test="filter.statuses != null and filter.statuses.size > 0">
+			AND tor.status_id IN (
+				<foreach collection="filter.statuses" item="status" separator=",">
+					#{status.id}
+				</foreach>
+			)
+		</if>
+	</sql>
+
+	<select id="countOrderByFilter" parameterType="map" resultType="int">
+		SELECT
+		    COUNT(1)
+		FROM
+		    t_order tor
+		<where>
+			<include refid="orderFilter"/>
+		</where>
+	</select>
+
+	<select id="selectWaitingPaymentOrderByPlayerNameAndCompetitionId" parameterType="map" resultMap="orderResult">
+		SELECT
+		    <include refid="orderColumns"/>
+		FROM
+		    t_order tor
+		WHERE
+			tor.player_name = #{playerName} AND tor.competition_id = #{competitionId} AND tor.status_id = 1
+	</select>
+
+	<update id="updateOrder" parameterType="map">
+		UPDATE t_order
+		<set>
+		    update_time = NOW(),
+			<if test="status != null">
+				status_id = #{status.id},
+			</if>
+			<if test="cancelTime != null">
+				cancel_time = #{cancelTime},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime},
+			</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+
+	<select id="selectOvertimeWaitingPaymentOrder" parameterType="map" resultMap="orderResult">
+		SELECT
+			<include refid="orderColumns"/>
+		FROM
+			t_order tor
+		WHERE
+			tor.status_id = 1
+		AND tor.create_time <![CDATA[ < ]]> #{overdueTime}
+	</select>
+</mapper>

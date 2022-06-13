@@ -10,6 +10,8 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
     private String name;
     private String description;
     private Integer participantLimit;
+    private String signUpPrice;
+    private String dinnerPrice;
     private String date;
     private String createTime;
     private String updateTime;
@@ -95,5 +97,21 @@ public class GetCompetitionDetailResponse extends ServiceResponse {
 
     public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
         this.signUpOptionIds = signUpOptionIds;
+    }
+
+    public String getSignUpPrice() {
+        return signUpPrice;
+    }
+
+    public void setSignUpPrice(String signUpPrice) {
+        this.signUpPrice = signUpPrice;
+    }
+
+    public String getDinnerPrice() {
+        return dinnerPrice;
+    }
+
+    public void setDinnerPrice(String dinnerPrice) {
+        this.dinnerPrice = dinnerPrice;
     }
 }

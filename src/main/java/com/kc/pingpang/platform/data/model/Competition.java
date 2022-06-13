@@ -4,6 +4,7 @@ import com.kc.pingpang.platform.freamwork.utils.StringUtility;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,9 @@ public class Competition implements Serializable {
     private String description;
     private String signUpOptions;
     private Integer participantLimit;
+
+    private BigDecimal signUpPrice;
+    private BigDecimal dinnerPrice;
     private Date date;
     private Date createTime;
     private Date updateTime;
@@ -123,5 +127,21 @@ public class Competition implements Serializable {
 
     public void setNullSignUpOptions(Boolean nullSignUpOptions) {
         this.nullSignUpOptions = nullSignUpOptions;
+    }
+
+    public BigDecimal getSignUpPrice() {
+        return signUpPrice;
+    }
+
+    public void setSignUpPrice(BigDecimal signUpPrice) {
+        this.signUpPrice = signUpPrice;
+    }
+
+    public BigDecimal getDinnerPrice() {
+        return dinnerPrice;
+    }
+
+    public void setDinnerPrice(BigDecimal dinnerPrice) {
+        this.dinnerPrice = dinnerPrice;
     }
 }

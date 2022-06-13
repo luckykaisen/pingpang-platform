@@ -1,4 +1,4 @@
-package com.kc.pingpang.platform.service.competition.api;
+package com.kc.pingpang.platform.business.service.competition.api;
 
 import com.kc.pingpang.platform.data.filter.CompetitionFilter;
 import com.kc.pingpang.platform.data.model.Competition;
@@ -9,7 +9,7 @@ public interface ICompetitionService {
 
     SearchResult<Competition> searchCompetitionByFilter(CompetitionFilter filter);
 
-    void joinCompetition(CompetitionPlayer player, Competition competition);
+    void joinCompetition(CompetitionPlayer player);
 
     void deleteCompetitionPlayer(CompetitionPlayer competitionPlayer);
 

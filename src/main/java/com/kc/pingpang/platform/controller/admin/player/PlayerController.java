@@ -5,7 +5,7 @@ import com.kc.pingpang.platform.data.mapper.PlayerMapper;
 import com.kc.pingpang.platform.data.model.Player;
 import com.kc.pingpang.platform.freamwork.model.db.filter.SearchResult;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
-import com.kc.pingpang.platform.service.player.api.IPlayerService;
+import com.kc.pingpang.platform.business.service.player.api.IPlayerService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

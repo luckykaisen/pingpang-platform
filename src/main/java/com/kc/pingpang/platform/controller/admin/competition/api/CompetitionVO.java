@@ -13,6 +13,8 @@ public class CompetitionVO {
     private Integer id;
     private String name;
     private Integer participantLimit;
+    private String signUpPrice;
+    private String dinnerPrice;
     private String date;
     private String createTime;
     private List<Integer> signUpOptionIds;
@@ -36,6 +38,8 @@ public class CompetitionVO {
         vo.setDate(DateTimeUtility.formatYYYYMMDD(competition.getDate()));
         vo.setCreateTime(DateTimeUtility.formatYYYYMMDDHHMM(competition.getCreateTime()));
         vo.setSignUpOptionIds(competition.getSignUpOptionList().stream().map(CompetitionOption::getId).collect(Collectors.toList()));
+        vo.setSignUpPrice(competition.getSignUpPrice().toString());
+        vo.setDinnerPrice(competition.getDinnerPrice().toString());
 
         return vo;
     }
@@ -86,5 +90,21 @@ public class CompetitionVO {
 
     public void setSignUpOptionIds(List<Integer> signUpOptionIds) {
         this.signUpOptionIds = signUpOptionIds;
+    }
+
+    public String getSignUpPrice() {
+        return signUpPrice;
+    }
+
+    public void setSignUpPrice(String signUpPrice) {
+        this.signUpPrice = signUpPrice;
+    }
+
+    public String getDinnerPrice() {
+        return dinnerPrice;
+    }
+
+    public void setDinnerPrice(String dinnerPrice) {
+        this.dinnerPrice = dinnerPrice;
     }
 }

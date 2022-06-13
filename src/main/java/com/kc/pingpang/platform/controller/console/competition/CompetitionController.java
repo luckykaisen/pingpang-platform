@@ -7,7 +7,7 @@ import com.kc.pingpang.platform.data.model.Competition;
 import com.kc.pingpang.platform.data.model.CompetitionPlayer;
 import com.kc.pingpang.platform.freamwork.http.api.api.ServiceResponse;
 import com.kc.pingpang.platform.freamwork.model.Bool;
-import com.kc.pingpang.platform.service.competition.api.ICompetitionService;
+import com.kc.pingpang.platform.business.service.competition.api.ICompetitionService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +57,7 @@ public class CompetitionController {
         player.setDinner(Bool.fromValue(request.getDinner()));
         player.setCompetitionId(competitionId);
 
-        competitionService.joinCompetition(player, competition);
+        competitionService.joinCompetition(player);
 
         return response;
     }

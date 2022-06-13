@@ -1,4 +1,4 @@
-package com.kc.pingpang.platform.service.business.excel.group.cycle;
+package com.kc.pingpang.platform.business.service.business.excel.group.cycle;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
